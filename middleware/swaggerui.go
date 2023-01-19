@@ -28,7 +28,8 @@ type SwaggerUIOpts struct {
 	Favicon16 string
 
 	// Title for the documentation site, default to: API documentation
-	Title string
+	Title      string
+	ApiKeyAuth string
 }
 
 // EnsureDefaults in case some options are missing
@@ -155,6 +156,11 @@ const (
           SwaggerUIBundle.plugins.DownloadUrl
         ],
         layout: "StandaloneLayout",
+        onComplete: function() {
+					if ('{{ .ApiKeyAuth }}' !== "") {
+          	ui.preauthorizeApiKey('ApiKeyAuth', '{{ .ApiKeyAuth }}');
+					}
+        },
 		oauth2RedirectUrl: '{{ .OAuthCallbackURL }}'
       })
       // End Swagger UI call region
